@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-//@MapperScan("edu.cdtu.*.*.mapper")
+@MapperScan("edu.cdtu.*.*.mapper")
 public class MyBatisPlusConfig {
     // 最新版分页插件
     @Bean
