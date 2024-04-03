@@ -3,12 +3,12 @@
 
  Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 80035
+ Source Server Version : 80036
  Source Host           : localhost:3306
  Source Schema         : usedshop
 
  Target Server Type    : MySQL
- Target Server Version : 80035
+ Target Server Version : 80036
  File Encoding         : 65001
 
  Date: 02/04/2024 17:02:29
