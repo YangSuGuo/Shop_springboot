@@ -9,4 +9,3 @@ public class ResultVo<T> {
     private int code;
     private T data;
 }
-
