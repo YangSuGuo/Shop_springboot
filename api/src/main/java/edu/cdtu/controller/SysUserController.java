@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/sysusers")
+@RequestMapping("/api/v1")
 public class SysUserController {
 
     @Autowired
