@@ -16,6 +16,11 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
+                //检验
+                .authorizeHttpRequests()
+                .antMatchers("/api/v1/**","/error").permitAll()
+                .anyRequest().authenticated()
+                .and()
                 //cors跨域处理
                 .cors()
                 .configurationSource(this.corsConfigurationSource())
