@@ -1,12 +1,11 @@
 package edu.cdtu;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.IService;
 import edu.cdtu.entity.user.SysUser;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public interface SysUserService {
+public interface SysUserService extends IService<SysUser> {
 
     /**
      * 获取所有用户列表
