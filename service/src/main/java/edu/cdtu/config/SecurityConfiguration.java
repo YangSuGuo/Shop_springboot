@@ -16,16 +16,16 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                //检验
+                // 检验
                 .authorizeHttpRequests()
                 .antMatchers("/api/v1/**","/error").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                //cors跨域处理
+                // cors跨域处理
                 .cors()
                 .configurationSource(this.corsConfigurationSource())
                 .and()
-                //关闭csrf
+                // 关闭csrf
                 .csrf()
                 .disable()
                 .build();
@@ -34,7 +34,7 @@ public class SecurityConfiguration {
     //cors跨域
     private CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cors = new CorsConfiguration();
-        //设置跨域 ***开发环境***
+        //设置跨域 *** 开发环境 ***
         cors.addAllowedOriginPattern("*");
         cors.setAllowCredentials(true);
         cors.addAllowedHeader("*");
