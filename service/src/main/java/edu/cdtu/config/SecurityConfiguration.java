@@ -1,4 +1,3 @@
-package edu.cdtu.config;/*
 package edu.cdtu.config;
 
 import org.springframework.context.annotation.Bean;
@@ -41,4 +40,4 @@ public class SecurityConfiguration {
         return source;
     }
 }
-*/
+
