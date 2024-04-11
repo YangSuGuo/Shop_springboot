@@ -33,5 +33,4 @@ public class SysUserController {
             return ResultUtils.error();
         }
     }
-
 }
