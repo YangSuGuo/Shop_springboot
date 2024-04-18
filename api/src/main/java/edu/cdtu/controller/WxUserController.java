@@ -1,6 +1,5 @@
 package edu.cdtu.controller;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import edu.cdtu.entity.ResultVo;
 import edu.cdtu.entity.wx_user.LoginVo;
