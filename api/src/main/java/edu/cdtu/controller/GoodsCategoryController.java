@@ -54,7 +54,12 @@ public class GoodsCategoryController {
         IPage<GoodsCategory> page = new Page<>(parm.getCurrentPage(), parm.getPageSize());
         //构造查询条件
         QueryWrapper<GoodsCategory> query = new QueryWrapper<>();
-        query.lambda().like(StringUtils.isNotEmpty(parm.getCategoryName()), GoodsCategory::getCategoryName, parm.getCategoryName()).orderByDesc(GoodsCategory::getOrderNum);
+        query.lambda().like(
+                StringUtils.isNotEmpty(
+                        parm.getCategoryName()),
+                        GoodsCategory::getCategoryName,
+                        parm.getCategoryName())
+                .orderByDesc(GoodsCategory::getOrderNum);
 
         // 查询数据
         IPage<GoodsCategory> list = goodsCategoryService.page(page, query);
