@@ -24,13 +24,9 @@ public class WxUserController {
         QueryWrapper<WxUser> query = new QueryWrapper<>();
         query.lambda().eq(WxUser::getUsername, user.getUsername());
         WxUser one = wxUserService.getOne(query);
-        if (one != null) {
-            return ResultUtils.error("用户名被占用");
-        }
+        if (one != null) return ResultUtils.error("用户名被占用");
         user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
-        if (wxUserService.saveOrUpdate(user)) {
-            return ResultUtils.success("注册成功！");
-        }
+        if (wxUserService.saveOrUpdate(user)) return ResultUtils.success("注册成功！");
         return ResultUtils.error("注册失败！");
     }
 
@@ -40,13 +36,13 @@ public class WxUserController {
         query.lambda().eq(WxUser::getUsername, user.getUsername()).eq(WxUser::getPassword, DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
         WxUser wxUser = wxUserService.getOne(query);
         if (wxUser != null) {
-            if (wxUser.getStatus().equals("1")) {
-                return ResultUtils.error("您的账户被停用，请联系管理员！");
-            }
+            if (wxUser.getStatus().equals("1")) return ResultUtils.error("您的账户被停用，请联系管理员！");
+
             LoginVo vo = new LoginVo();
             vo.setNickName(wxUser.getNickName());
             vo.setPhone(wxUser.getPhone());
             vo.setUserId(wxUser.getUserId());
+
             return ResultUtils.success("登陆成功", vo);
         }
         return ResultUtils.error("用户名或密码错误！");
