@@ -17,4 +17,6 @@ public class WxUser {
     private String password;
     //0：启用 1：停用
     private String status;
+    // 0：未删除 1：已删除
+    private String deleteStatus;
 }

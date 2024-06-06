@@ -1,2 +1,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="edu.cdtu.mapper.SysUserMapper"/>
+<mapper namespace="edu.cdtu.mapper.SysUserMapper">
+    <!-- 分页查询用户列表 -->
+    <select id="selectUserPage" parameterType="map" resultType="edu.cdtu.entity.user.SysUser">
+        SELECT * FROM sys_user
+        WHERE 1 = 1
+        <if test="nickname != null and nickname != ''">
+            AND nick_name LIKE CONCAT('%', #{nickname}, '%')
+        </if>
+        LIMIT #{offset}, #{size}
+    </select>
+
+    <select id="selectUserCount" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM sys_user
+        <if test="value != null and value != ''">
+            WHERE nick_name LIKE CONCAT('%', #{value}, '%')
+        </if>
+    </select>
+</mapper>
