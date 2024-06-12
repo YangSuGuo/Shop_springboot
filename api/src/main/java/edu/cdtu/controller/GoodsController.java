@@ -8,6 +8,7 @@ import edu.cdtu.entity.ResultVo;
 import edu.cdtu.entity.goods.Goods;
 import edu.cdtu.entity.goods.GoodsListParm;
 import edu.cdtu.entity.goods.StatusParm;
+import edu.cdtu.entity.goods.WxIndexParm;
 import edu.cdtu.entity.goods_category.GoodsCategory;
 import edu.cdtu.goods.GoodsService;
 import edu.cdtu.goods_category.GoodsCategoryService;
@@ -116,6 +117,49 @@ public class GoodsController {
     @GetMapping("/getCateList")
     public ResultVo getCateList(){
         List<GoodsCategory> list = goodsCategoryService.list();
+        return ResultUtils.success("查询成功",list);
+    }
+
+    //小程序闲置列表查询
+    @GetMapping("/getUsedList")
+    public ResultVo getUsedList(WxIndexParm parm){
+        //构造查询条件
+        QueryWrapper<Goods> query = new QueryWrapper<>();
+        //关键字模糊查询
+        query.lambda().like(StringUtils.isNotEmpty(parm.getKeywords()),Goods::getGoodsName,parm.getKeywords())
+                .eq(Goods::getStatus,"0")//上架
+                .eq(Goods::getDeleteStatus,"0")//未删除
+                .eq(Goods::getType,"0")//闲置
+                .eq(Goods::getSellStatus,"0")//未出售
+                //请求分类与查询分类相同
+                .eq(StringUtils.isNotEmpty(parm.getCategoryId()),Goods::getCategoryId,parm.getCategoryId())
+                .orderByDesc(Goods::getCreateTime);//时间倒续
+
+        //构造分页对象
+        IPage<Goods> page = new Page<>
+                (parm.getCurrentPage(),parm.getPageSize());
+        IPage<Goods> list = goodsService.page(page, query);
+        return ResultUtils.success("查询成功",list);
+    }
+
+    //小程序求购列表查询
+    @GetMapping("/getBuyList")
+    public ResultVo getBuyList(WxIndexParm parm){
+        //构造查询条件
+        QueryWrapper<Goods> query = new QueryWrapper<>();
+
+        query.lambda().like(StringUtils.isNotEmpty(parm.getKeywords()),Goods::getGoodsName,parm.getKeywords())
+                .eq(Goods::getStatus,"0")
+                .eq(Goods::getDeleteStatus,"0")
+                .eq(Goods::getType,"1")
+                .eq(Goods::getSellStatus,"0")
+
+                .eq(StringUtils.isNotEmpty(parm.getCategoryId()),Goods::getCategoryId,parm.getCategoryId())
+                .orderByDesc(Goods::getCreateTime);
+        //构造分页对象
+        IPage<Goods> page = new Page<>
+                (parm.getCurrentPage(),parm.getPageSize());
+        IPage<Goods> list = goodsService.page(page, query);
         return ResultUtils.success("查询成功",list);
     }
 }
