@@ -66,6 +66,7 @@ public class WxUserController {
         return ResultUtils.success("查询成功", list);
     }
 
+    // 停用/启用
     @PostMapping("/stopUser")
     public ResultVo stopUser(@RequestBody WxUser user) {
         if (!"0".equals(user.getStatus()) && !"1".equals(user.getStatus())) {

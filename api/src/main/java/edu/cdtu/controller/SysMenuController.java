@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/menu")
+@RequestMapping("/api/v1/menu")
 public class SysMenuController {
     @Autowired
     private SysMenuService sysMenuService;

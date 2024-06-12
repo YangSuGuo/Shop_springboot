@@ -19,34 +19,43 @@ import edu.cdtu.user.SysUserService;
 import edu.cdtu.utils.ResultUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.ZonedDateTime;
 import java.util.Base64;
 import java.util.Base64.Encoder;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/api/v1/sysUser")
 public class SysUserController {
-    //    自动注入service对象
+
     @Autowired
     private SysUserService sysUserService;
+
     @Autowired
     private DefaultKaptcha defaultKaptcha;
+
+    @Resource
+    StringRedisTemplate redis;
 
     @GetMapping("/image")
     public ResultVo imageCode(HttpServletRequest request) {
         // 生成验证码字符
         String text = defaultKaptcha.createText();
-        // 验证码保存到session
-        HttpSession session = request.getSession();
-        session.setAttribute("code", text);
+        // todo 设置生成唯一键值【毫秒】
+        long zone = ZonedDateTime.now().withNano(0).toInstant().toEpochMilli();
+        String key = DigestUtils.md5DigestAsHex(String.valueOf(zone).getBytes());
+        // 验证码保存到 redis 设置过期时间120秒
+        redis.opsForValue().set("code" + key, text, 120, TimeUnit.SECONDS);
         // 生成的验证码图片
         BufferedImage bufferedImage = defaultKaptcha.createImage(text);
         ByteArrayOutputStream outputStream = null;
@@ -56,14 +65,15 @@ public class SysUserController {
             ImageIO.write(bufferedImage, "jpg", outputStream);
             // 创建一个BASE64Encoder对象，用于将图片数据转换为Base64字符串
             Encoder encoder = Base64.getEncoder();
-//            BASE64Encoder encoder = new BASE64Encoder();
             // 将outputStream中的图片数据转换为Base64字符串
             String base64 = encoder.encodeToString(outputStream.toByteArray());
-//            String base64 = encoder.encode(outputStream.toByteArray());
             // 将生成的Base64字符串添加"data:image/jpeg;base64,"前缀，形成完整的Base64图片字符串
             String captchaBase64 = "data:image/jpeg;base64," + base64.replaceAll("\r\n", "");
             // 将生成的Base64图片字符串作为数据返回
-            ResultVo result = new ResultVo("生成成功", 200, captchaBase64);
+            CodeKey vo = new CodeKey();
+            vo.setKey(key);
+            vo.setCaptchaBase64(captchaBase64);
+            ResultVo result = new ResultVo("生成成功", 200, vo);
             return result;
         } catch (IOException e) {
             e.printStackTrace();
@@ -82,11 +92,13 @@ public class SysUserController {
     // 登录
     @PostMapping("/login")
     public ResultVo login(@RequestBody LoginParm parm, HttpServletRequest request) {
-        // 获取session里面的code验证码
-        HttpSession session = request.getSession();
-        String code = (String) session.getAttribute("code");
+        String keyParm = parm.getUserId();
+        // 获取redis里面的code验证码
+        String code = redis.opsForValue().get("code" + keyParm);
         // 获取前端传来的验证码
         String codeParm = parm.getCode();
+        System.out.println("前端请求验证码：" + codeParm);
+        System.out.println("后端验证验证码：" + code);
         if (StringUtils.isEmpty(code)) {
             return ResultUtils.error("验证码过期!");
         }

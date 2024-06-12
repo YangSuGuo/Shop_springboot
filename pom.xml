@@ -42,6 +42,11 @@
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>${druid.version}</version>
         </dependency>
+        <!--    Redis交互模块    -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
         <!--mybatis-plus依赖-->
         <dependency>
             <groupId>com.baomidou</groupId>
