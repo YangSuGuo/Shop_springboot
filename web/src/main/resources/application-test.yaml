@@ -32,5 +32,5 @@ logging:
     console: '%d{yyyy-MM-dd} [%thread] %-5level %logger- %msg%n'
 
 web:
-  uploadpath: H:\code\CrossPlatformApps\used_shop\Shop_springboot\common\src\main\java\edu\cdtu\img  #图片上传的路径
+  uploadpath: H:/code/CrossPlatformApps/used_shop/Shop_springboot/common/src/main/java/edu/cdtu/img  #图片上传的路径
   load-path: file:H://code/CrossPlatformApps/used_shop/Shop_springboot/common/src/main/java/edu/cdtu/img #图片访问、加载的路径
