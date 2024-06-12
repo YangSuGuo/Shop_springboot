@@ -64,4 +64,12 @@ public class GoodsOrderServiceImpl extends ServiceImpl<GoodsOrderMapper, GoodsOr
         IPage<OrderVo> page = new Page<>(parm.getCurrentPage(), parm.getPageSize());
         return this.baseMapper.getUnusedOrderList(page, parm.getGoodsName());
     }
+
+    // 查询求购订单列表
+    @Override
+    public IPage<OrderVo> getBuyOrderList(OrderParm parm) {
+        //构造分页对象
+        IPage<OrderVo> page = new Page<>(parm.getCurrentPage(), parm.getPageSize());
+        return this.baseMapper.getBuyOrderList(page, parm.getGoodsName());
+    }
 }

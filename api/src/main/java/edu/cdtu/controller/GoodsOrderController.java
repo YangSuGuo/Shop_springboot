@@ -56,4 +56,9 @@ public class GoodsOrderController {
         return ResultUtils.success("查询成功", list);
     }
 
+    @GetMapping("/getBuyOrderList")
+    public ResultVo getBuyOrderList(OrderParm parm) {
+        IPage<OrderVo> list = goodsOrderService.getBuyOrderList(parm);
+        return ResultUtils.success("查询成功", list);
+    }
 }

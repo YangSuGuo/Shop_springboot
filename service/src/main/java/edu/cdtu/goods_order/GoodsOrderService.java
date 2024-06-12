@@ -17,4 +17,6 @@ public interface GoodsOrderService extends IService<GoodsOrder> {
     IPage<Goods> getSellOrder(MyGoodsParm parm);
     //查询闲置订单列表
     IPage<OrderVo> getUnusedOrderList(OrderParm parm);
+    //查询求购订单列表
+    IPage<OrderVo> getBuyOrderList(OrderParm parm);
 }

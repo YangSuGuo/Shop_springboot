@@ -16,6 +16,10 @@ public interface GoodsOrderMapper extends BaseMapper<GoodsOrder> {
     //查询我的出售订单
     IPage<Goods> getSellOrder(IPage<Goods> page, @Param("userId") Long userId);
 
-    //    获取所有闲置订单
+    //获取所有闲置订单
     IPage<OrderVo> getUnusedOrderList(IPage<OrderVo> page, @Param("goodsName") String goodsName);
+
+    // 获取全部求购订单
+    IPage<OrderVo> getBuyOrderList(IPage<OrderVo> page, @Param("goodsName") String goodsName);
+
 }

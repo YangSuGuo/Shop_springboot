@@ -8,19 +8,25 @@ import edu.cdtu.entity.ResultVo;
 import edu.cdtu.entity.goods.Goods;
 import edu.cdtu.entity.goods.GoodsListParm;
 import edu.cdtu.entity.goods.StatusParm;
+import edu.cdtu.entity.goods_category.GoodsCategory;
 import edu.cdtu.goods.GoodsService;
+import edu.cdtu.goods_category.GoodsCategoryService;
 import edu.cdtu.utils.ResultUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/goods")
 public class GoodsController {
     @Autowired
     private GoodsService goodsService;
+
+    @Autowired
+    private GoodsCategoryService goodsCategoryService;
 
 //    @Autowired
 //    public GoodsController(GoodsService goodsService) {
@@ -104,5 +110,12 @@ public class GoodsController {
         query.lambda().eq(Goods::getType, "1").eq(Goods::getDeleteStatus, "0").like(StringUtils.isNotEmpty(parm.getGoodsName()), Goods::getGoodsName, parm.getGoodsName()).orderByDesc(Goods::getCreateTime);
         IPage<Goods> list = goodsService.page(page, query);
         return ResultUtils.success("查询成功", list);
+    }
+
+    //小程序查询商品分类
+    @GetMapping("/getCateList")
+    public ResultVo getCateList(){
+        List<GoodsCategory> list = goodsCategoryService.list();
+        return ResultUtils.success("查询成功",list);
     }
 }
