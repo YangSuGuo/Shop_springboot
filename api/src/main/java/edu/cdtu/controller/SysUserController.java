@@ -99,27 +99,21 @@ public class SysUserController {
         String codeParm = parm.getCode();
         System.out.println("前端请求验证码：" + codeParm);
         System.out.println("后端验证验证码：" + code);
-        if (StringUtils.isEmpty(code)) {
-            return ResultUtils.error("验证码过期!");
-        }
+        if (StringUtils.isEmpty(code)) return ResultUtils.error("验证码过期!");
         // 对比验证码
-        if (!codeParm.equals(code)) {
-            return ResultUtils.error("验证码错误！");
-        }
+        if (!codeParm.equals(code)) return ResultUtils.error("验证码错误！");
         // 验证用户信息
         QueryWrapper<SysUser> query = new QueryWrapper<>();
         query.lambda().eq(SysUser::getUsername, parm.getUsername()).eq(SysUser::getPassword, DigestUtils.md5DigestAsHex(parm.getPassword().getBytes()));
         SysUser user = sysUserService.getOne(query);
-        if (user == null) {
-            return ResultUtils.error("用户名或密码错误！");
-        }
-        if (user.getStatus().equals("1")) {
-            return ResultUtils.error("账户被停用，请联系管理员！");
-        }
+        if (user == null) return ResultUtils.error("用户名或密码错误！");
+        if (user.getStatus().equals("1")) return ResultUtils.error("账户被停用，请联系管理员！");
         // 返回登录信息
         LoginVo vo = new LoginVo();
         vo.setUserId(user.getUserId());
         vo.setNickName(user.getNickName());
+        // 登录成功 使redis code码失效
+        redis.delete("code" + keyParm);
         return ResultUtils.success("登录成功", vo);
     }
 

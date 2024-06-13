@@ -15,7 +15,7 @@ public class ImageConfig {
         DefaultKaptcha defaultKaptcha = new DefaultKaptcha();
         Properties properties = new Properties();
         // 验证码是否有边框
-        properties.setProperty(Constants.KAPTCHA_BORDER, "yes");
+        properties.setProperty(Constants.KAPTCHA_BORDER, "no");
         // 边框颜色
         properties.setProperty(Constants.KAPTCHA_BORDER_COLOR, "105,179,90");
         // 字体颜色
@@ -33,7 +33,7 @@ public class ImageConfig {
         // 字体样式
         properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_FONT_NAMES, "楷体");
         // 验证码位数
-        properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_CHAR_LENGTH, "4");
+        properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_CHAR_LENGTH, "6");
         // 图片效果
         properties.setProperty(Constants.KAPTCHA_OBSCURIFICATOR_IMPL, "com.google.code.kaptcha.impl.ShadowGimpy");
 

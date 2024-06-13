@@ -18,7 +18,7 @@ public class SecurityConfiguration {
         return http
                 // 检验
                 .authorizeHttpRequests()
-                .antMatchers("/api/v1/**","/error").permitAll()
+                .antMatchers("/api/v1/**", "/error", "/images/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 // cors跨域处理
@@ -31,7 +31,7 @@ public class SecurityConfiguration {
                 .build();
     }
 
-    //cors跨域
+    // cors跨域
     private CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cors = new CorsConfiguration();
         //设置跨域 *** 开发环境 ***

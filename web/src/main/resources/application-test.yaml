@@ -3,7 +3,6 @@ server:
   port: 8089
 # 数据库连接配置
 spring:
-  session: 30m
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -32,5 +31,5 @@ logging:
     console: '%d{yyyy-MM-dd} [%thread] %-5level %logger- %msg%n'
 
 web:
-  uploadpath: H:/code/CrossPlatformApps/used_shop/Shop_springboot/common/src/main/java/edu/cdtu/img  #图片上传的路径
-  load-path: file:H://code/CrossPlatformApps/used_shop/Shop_springboot/common/src/main/java/edu/cdtu/img #图片访问、加载的路径
+  uploadpath: H:/code/CrossPlatformApps/used_shop/Shop_springboot/common/src/main/java/edu/cdtu/img/  #图片上传的路径
+  load-path: file:H://code/CrossPlatformApps/used_shop/Shop_springboot/common/src/main/java/edu/cdtu/img/ #图片访问、加载的路径

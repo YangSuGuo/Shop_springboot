@@ -44,12 +44,6 @@ public class GoodsController {
     public ResultVo getList(GoodsListParm parm) {
         IPage<Goods> page = new Page<>(parm.getCurrentPage(), parm.getPageSize());
         QueryWrapper<Goods> query = new QueryWrapper<>();
-
-        // 只查询闲置
-        //query.eq("type", "0");
-        //query.eq("delete_status", "0");
-
-
         query.lambda().eq(Goods::getType, "0").eq(Goods::getDeleteStatus, "0").like(StringUtils.isNotEmpty(parm.getGoodsName()), Goods::getGoodsName, parm.getGoodsName()).orderByDesc(Goods::getCreateTime);
         IPage<Goods> list = goodsService.page(page, query);
         return ResultUtils.success("查询成功", list);
@@ -102,7 +96,6 @@ public class GoodsController {
     public ResultVo getWantedList(GoodsListParm parm) {
         IPage<Goods> page = new Page<>(parm.getCurrentPage(), parm.getPageSize());
         QueryWrapper<Goods> query = new QueryWrapper<>();
-
         query.lambda().eq(Goods::getType, "1").eq(Goods::getDeleteStatus, "0").like(StringUtils.isNotEmpty(parm.getGoodsName()), Goods::getGoodsName, parm.getGoodsName()).orderByDesc(Goods::getCreateTime);
         IPage<Goods> list = goodsService.page(page, query);
         return ResultUtils.success("查询成功", list);
@@ -149,6 +142,7 @@ public class GoodsController {
                 .eq(Goods::getSellStatus, "0")
                 .eq(StringUtils.isNotEmpty(parm.getCategoryId()), Goods::getCategoryId, parm.getCategoryId())
                 .orderByDesc(Goods::getCreateTime);
+
         //构造分页对象
         IPage<Goods> page = new Page<>(parm.getCurrentPage(), parm.getPageSize());
         IPage<Goods> list = goodsService.page(page, query);
