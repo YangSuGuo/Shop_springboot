@@ -9,8 +9,9 @@ import java.util.Optional;
 public class MakeMenuTree {
     /**
      * 从menuList中找到parentId为pid的SysMenu返回
+     *
      * @param menuList 待整理成树形结构的menu列表，即目前是数据库中原始的平铺的menu列表结构
-     * @param pid 指定的parentId，用于筛选出该parentId下的直属children SysMenu
+     * @param pid      指定的parentId，用于筛选出该parentId下的直属children SysMenu
      * @return 返回parentId为pid的所有children SysMenu
      */
 //    树状结构

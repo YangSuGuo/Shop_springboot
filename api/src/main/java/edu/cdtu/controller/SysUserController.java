@@ -38,14 +38,12 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/api/v1/sysUser")
 public class SysUserController {
 
-    @Autowired
-    private SysUserService sysUserService;
-
-    @Autowired
-    private DefaultKaptcha defaultKaptcha;
-
     @Resource
     StringRedisTemplate redis;
+    @Autowired
+    private SysUserService sysUserService;
+    @Autowired
+    private DefaultKaptcha defaultKaptcha;
 
     @GetMapping("/image")
     public ResultVo imageCode(HttpServletRequest request) {

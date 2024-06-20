@@ -4,30 +4,32 @@
 
 <mapper namespace="edu.cdtu.mapper.GoodsOrderMapper">
 
-<!--    查询我的购买订单-->
+    <!--    查询我的购买订单-->
     <select id="getMyOrder" resultType="edu.cdtu.entity.goods.Goods">
-        select g.*,gr.order_id,gr.create_time as sell_time,gr.price from goods_order as gr
-        left join  goods as g
-        on g.goods_id = gr.goods_id
-        where gr.order_user =#{userId}
+        select g.*, gr.order_id, gr.create_time as sell_time, gr.price
+        from goods_order as gr
+                 left join goods as g
+                           on g.goods_id = gr.goods_id
+        where gr.order_user = #{userId}
     </select>
 
-<!--    查询我的出售订单-->
+    <!--    查询我的出售订单-->
     <select id="getSellOrder" resultType="edu.cdtu.entity.goods.Goods">
-        select g.*,gr.order_id,gr.create_time as sell_time,gr.price from goods_order as gr
-        left join  goods as g
-        on g.goods_id = gr.goods_id
-        where g.user_id =#{userId}
+        select g.*, gr.order_id, gr.create_time as sell_time, gr.price
+        from goods_order as gr
+                 left join goods as g
+                           on g.goods_id = gr.goods_id
+        where g.user_id = #{userId}
     </select>
 
     <!--    查询所有闲置订单-->
     <select id="getUnusedOrderList" resultType="edu.cdtu.entity.goods_order.OrderVo">
         select go.order_id,g.goods_name,g.goods_price,g.image,u.nick_name,go.price,go.create_time from goods_order as go
-        inner join goods as g  on g.goods_id = go.goods_id
+        inner join goods as g on g.goods_id = go.goods_id
         inner join wx_user as u on u.user_id = go.order_user
         where 1=1 and g.TYPE ='0'
         <if test="goodsName != null and goodsName != ''">
-            and  g.goods_name like concat('%',#{goodsName},'%')
+            and g.goods_name like concat('%',#{goodsName},'%')
         </if>
         order by go.create_time desc
     </select>
@@ -35,11 +37,11 @@
     <!--    查询所有求购订单-->
     <select id="getBuyOrderList" resultType="edu.cdtu.entity.goods_order.OrderVo">
         select go.order_id,g.goods_name,g.goods_price,g.image,u.nick_name,go.price,go.create_time from goods_order as go
-        inner join goods as g  on g.goods_id = go.goods_id
+        inner join goods as g on g.goods_id = go.goods_id
         inner join wx_user as u on u.user_id = go.order_user
         where 0=0 and g.TYPE ='1'
         <if test="goodsName != null and goodsName != ''">
-            and  g.goods_name like concat('%',#{goodsName},'%')
+            and g.goods_name like concat('%',#{goodsName},'%')
         </if>
         order by go.create_time desc
     </select>

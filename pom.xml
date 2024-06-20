@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <name>Shop_springboot</name>
@@ -10,7 +10,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>Shop_springboot</description>
-<!--子项目-->
+    <!--子项目-->
     <modules>
         <module>web</module>
         <module>service</module>
@@ -18,14 +18,14 @@
         <module>common</module>
         <module>api</module>
     </modules>
-<!--版本号-->
+    <!--版本号-->
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <spring-boot.version>2.7.6</spring-boot.version>
-<!--        <swagger2.version>3.0.0</swagger2.version>-->
+        <!--        <swagger2.version>3.0.0</swagger2.version>-->
         <mybatis-plus.version>3.4.2</mybatis-plus.version>
         <druid.version>1.2.1</druid.version>
         <kaptcha.version>2.3.2</kaptcha.version>
@@ -34,7 +34,7 @@
         <commons-collections.version>3.2.2</commons-collections.version>
         <commons-io.version>2.6</commons-io.version>
     </properties>
-<!--依赖-->
+    <!--依赖-->
     <dependencies>
         <!--druid连接池-->
         <dependency>
@@ -80,12 +80,12 @@
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
         </dependency>
-<!--    springfox在2.7.6中会出现空指针异常    -->
-<!--        <dependency>-->
-<!--            <groupId>io.springfox</groupId>-->
-<!--            <artifactId>springfox-boot-starter</artifactId>-->
-<!--            <version>${swagger2.version}</version>-->
-<!--        </dependency>-->
+        <!--    springfox在2.7.6中会出现空指针异常    -->
+        <!--        <dependency>-->
+        <!--            <groupId>io.springfox</groupId>-->
+        <!--            <artifactId>springfox-boot-starter</artifactId>-->
+        <!--            <version>${swagger2.version}</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jdbc</artifactId>
@@ -131,7 +131,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-<!--依赖管理-->
+    <!--依赖管理-->
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -143,7 +143,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-<!--构筑-->
+    <!--构筑-->
     <build>
         <plugins>
             <plugin>

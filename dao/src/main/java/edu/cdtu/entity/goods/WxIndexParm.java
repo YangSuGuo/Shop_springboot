@@ -1,6 +1,7 @@
 package edu.cdtu.entity.goods;
 
 import lombok.Data;
+
 //首页参数
 @Data
 public class WxIndexParm {

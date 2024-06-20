@@ -34,7 +34,9 @@ public class SysMenu {
     @TableField(exist = false)
     private List<SysMenu> children = new ArrayList<>(); // 在返回给前端时，将当前资源的子资源组装好返回
 
-    public SysMenu(){}
+    public SysMenu() {
+    }
+
     public SysMenu(long l, long l1, String root) {
         this.menuId = l;
         this.parentId = l1;

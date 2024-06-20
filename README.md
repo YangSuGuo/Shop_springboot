@@ -1,6 +1,7 @@
 # SpringBoot 2.7.6 + MyBatis Plus 3.4.2 + MySQL 8.0.36
 
 ## SpringBoot 多模块项目
+
 * api
 * common
 * service
@@ -8,9 +9,11 @@
 * dao
 
 ## 依赖结构图
+
 ![568199-20171212103739196-704236084.png](https://img2.imgtp.com/2024/04/03/Valwtoi6.png)
 
 ## SQL建表语句
+
 ```sql
 /*
  Navicat Premium Data Transfer

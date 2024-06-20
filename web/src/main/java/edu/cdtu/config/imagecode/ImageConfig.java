@@ -11,7 +11,7 @@ import java.util.Properties;
 @Configuration
 public class ImageConfig {
     @Bean
-    public DefaultKaptcha getDefaultKaptcha(){
+    public DefaultKaptcha getDefaultKaptcha() {
         DefaultKaptcha defaultKaptcha = new DefaultKaptcha();
         Properties properties = new Properties();
         // 验证码是否有边框

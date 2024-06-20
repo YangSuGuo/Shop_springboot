@@ -5,10 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import edu.cdtu.entity.ResultVo;
-import edu.cdtu.entity.goods.Goods;
-import edu.cdtu.entity.goods.GoodsListParm;
-import edu.cdtu.entity.goods.StatusParm;
-import edu.cdtu.entity.goods.WxIndexParm;
+import edu.cdtu.entity.goods.*;
 import edu.cdtu.entity.goods_category.GoodsCategory;
 import edu.cdtu.goods.GoodsService;
 import edu.cdtu.goods_category.GoodsCategoryService;
@@ -147,5 +144,28 @@ public class GoodsController {
         IPage<Goods> page = new Page<>(parm.getCurrentPage(), parm.getPageSize());
         IPage<Goods> list = goodsService.page(page, query);
         return ResultUtils.success("查询成功", list);
+    }
+
+    //小程序我发布的商品
+    @GetMapping("/getMyGoodsList")
+    public ResultVo getMyUnusedList(MyGoodsParm parm) {
+        //构造查询条件
+        QueryWrapper<Goods> query = new QueryWrapper<>();
+        query.lambda().eq(Goods::getUserId, parm.getUserId())
+                .eq(Goods::getType, parm.getType())//商品类型：0闲置 1求购
+                .eq(Goods::getDeleteStatus, "0");//未删除
+        //构造分页对象
+        IPage<Goods> page = new Page<>(parm.getCurrentPage(), parm.getPageSize());
+        IPage<Goods> list = goodsService.page(page, query);
+        return ResultUtils.success("查询成功", list);
+    }
+
+    //小程序修改发布的商品信息
+    @PostMapping("/edit")
+    public ResultVo edit(@RequestBody Goods goods) {
+        if (goodsService.updateById(goods)) {
+            return ResultUtils.success("编辑成功！");
+        }
+        return ResultUtils.error("编辑失败!");
     }
 }

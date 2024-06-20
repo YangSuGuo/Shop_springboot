@@ -54,8 +54,8 @@ public class GoodsCategoryController {
         //构造查询条件
         QueryWrapper<GoodsCategory> query = new QueryWrapper<>();
         query.lambda().like(
-                StringUtils.isNotEmpty(
-                        parm.getCategoryName()),
+                        StringUtils.isNotEmpty(
+                                parm.getCategoryName()),
                         GoodsCategory::getCategoryName,
                         parm.getCategoryName())
                 .orderByDesc(GoodsCategory::getOrderNum);
