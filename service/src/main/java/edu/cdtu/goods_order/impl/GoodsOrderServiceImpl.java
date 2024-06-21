@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Service
@@ -65,11 +66,28 @@ public class GoodsOrderServiceImpl extends ServiceImpl<GoodsOrderMapper, GoodsOr
         return this.baseMapper.getUnusedOrderList(page, parm.getGoodsName());
     }
 
+    //查询闲置订单列表数量
+    @Override
+    public Long getQueryIdleOrderListCount() {
+        return this.baseMapper.getQueryIdleOrderListCount();
+    }
+
     // 查询求购订单列表
     @Override
     public IPage<OrderVo> getBuyOrderList(OrderParm parm) {
         //构造分页对象
         IPage<OrderVo> page = new Page<>(parm.getCurrentPage(), parm.getPageSize());
         return this.baseMapper.getBuyOrderList(page, parm.getGoodsName());
+    }
+
+    //查询求购订单列表数量
+    @Override
+    public Long getQueryPurchaseOrderListCount() {
+        return this.baseMapper.getQueryPurchaseOrderListCount();
+    }
+
+    @Override
+    public BigDecimal getQueryOrderTotalAmount(){
+        return this.baseMapper.getQueryOrderTotalAmount();
     }
 }

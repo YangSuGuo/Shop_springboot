@@ -34,6 +34,14 @@
         order by go.create_time desc
     </select>
 
+    <!-- 查询闲置订单数量 -->
+    <select id="getQueryIdleOrderListCount" resultType="long">
+        SELECT COUNT(*)
+        FROM goods_order AS go
+        INNER JOIN goods AS g ON g.goods_id = go.goods_id
+        WHERE g.TYPE = '0'
+    </select>
+
     <!--    查询所有求购订单-->
     <select id="getBuyOrderList" resultType="edu.cdtu.entity.goods_order.OrderVo">
         select go.order_id,g.goods_name,g.goods_price,g.image,u.nick_name,go.price,go.create_time from goods_order as go
@@ -45,4 +53,17 @@
         </if>
         order by go.create_time desc
     </select>
+
+    <!-- 查询闲置订单数量 -->
+    <select id="getQueryPurchaseOrderListCount" resultType="long">
+        SELECT COUNT(*)
+        FROM goods_order AS go
+        INNER JOIN goods AS g ON g.goods_id = go.goods_id
+        WHERE g.TYPE = '1'
+    </select>
+
+    <select id="getQueryOrderTotalAmount" resultType="decimal">
+        SELECT SUM(price) FROM goods_order
+    </select>
+
 </mapper>

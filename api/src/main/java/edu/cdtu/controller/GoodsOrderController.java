@@ -12,6 +12,8 @@ import edu.cdtu.utils.ResultUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 @RestController
 @RequestMapping("/api/v1/goodsOrder")
 public class GoodsOrderController {
@@ -49,11 +51,17 @@ public class GoodsOrderController {
     }
 
     //查询闲置订单列表
-//    @Auth
     @GetMapping("/getUnusedOrderList")
     public ResultVo getUnusedOrderList(OrderParm parm) {
         IPage<OrderVo> list = goodsOrderService.getUnusedOrderList(parm);
         return ResultUtils.success("查询成功", list);
+    }
+
+    //查询闲置订单列表数量
+    @GetMapping("/getQueryIdleOrderListCount")
+    public ResultVo getQueryIdleOrderListCount() {
+        Long s = goodsOrderService.getQueryIdleOrderListCount();
+        return ResultUtils.success("查询成功", s);
     }
 
     //查询购买订单列表
@@ -61,5 +69,19 @@ public class GoodsOrderController {
     public ResultVo getBuyOrderList(OrderParm parm) {
         IPage<OrderVo> list = goodsOrderService.getBuyOrderList(parm);
         return ResultUtils.success("查询成功", list);
+    }
+
+    //查询购买订单列表数量
+    @GetMapping("/getQueryPurchaseOrderListCount")
+    public ResultVo getQueryPurchaseOrderListCount() {
+        Long s = goodsOrderService.getQueryPurchaseOrderListCount();
+        return ResultUtils.success("查询成功", s);
+    }
+
+    //查询订单交易总额
+    @GetMapping("/getQueryOrderTotalAmount")
+    public ResultVo getQueryOrderTotalAmount() {
+        BigDecimal s = goodsOrderService.getQueryOrderTotalAmount();
+        return ResultUtils.success("查询成功", s);
     }
 }

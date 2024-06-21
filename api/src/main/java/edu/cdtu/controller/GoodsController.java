@@ -51,11 +51,24 @@ public class GoodsController {
         return ResultUtils.success("查询成功", list);
     }
 
+    // 查询闲置商品数量
     @GetMapping("/queryIdleItemCount")
     public ResultVo getQueryIdleItemCount() {
         QueryWrapper<Goods> query = new QueryWrapper<>();
         query.lambda()
                 .eq(Goods::getType, "0")
+                .eq(Goods::getDeleteStatus, "0")
+                .orderByDesc(Goods::getCreateTime);
+        Integer count = goodsService.count(query);
+        return ResultUtils.success("查询成功", count);
+    }
+
+    // 查询求购商品数量
+    @GetMapping("/queryPurchaseItemQuantity")
+    public ResultVo getQueryPurchaseItemQuantity() {
+        QueryWrapper<Goods> query = new QueryWrapper<>();
+        query.lambda()
+                .eq(Goods::getType, "1")
                 .eq(Goods::getDeleteStatus, "0")
                 .orderByDesc(Goods::getCreateTime);
         Integer count = goodsService.count(query);
