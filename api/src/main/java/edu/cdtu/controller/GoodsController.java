@@ -104,6 +104,21 @@ public class GoodsController {
         return ResultUtils.error("设置失败！");
     }
 
+    //小程序首页推荐列表
+    @GetMapping("/getIndexList")
+    public ResultVo getIndexList(WxIndexParm parm) {
+        QueryWrapper<Goods> query = new QueryWrapper<>();
+        query.lambda().like(StringUtils.isNotEmpty(parm.getKeywords()),
+                        Goods::getGoodsName, parm.getKeywords())//是否模糊查询的
+                .eq(Goods::getSetIndex, "1")//推荐到首页的
+                .eq(Goods::getStatus, "0")//上架的
+                .orderByDesc(Goods::getCreateTime);
+        IPage<Goods> page = new Page<>
+                (parm.getCurrentPage(), parm.getPageSize());
+        IPage<Goods> list = goodsService.page(page, query);
+        return ResultUtils.success("查询成功", list);
+    }
+
     //后台删除商品
     @PostMapping("/delete")
     public ResultVo delete(@RequestBody StatusParm parm) {
