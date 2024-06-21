@@ -41,10 +41,27 @@ public class GoodsController {
     public ResultVo getList(GoodsListParm parm) {
         IPage<Goods> page = new Page<>(parm.getCurrentPage(), parm.getPageSize());
         QueryWrapper<Goods> query = new QueryWrapper<>();
-        query.lambda().eq(Goods::getType, "0").eq(Goods::getDeleteStatus, "0").like(StringUtils.isNotEmpty(parm.getGoodsName()), Goods::getGoodsName, parm.getGoodsName()).orderByDesc(Goods::getCreateTime);
+        query.lambda()
+                .eq(Goods::getType, "0")
+                .eq(Goods::getDeleteStatus, "0")
+                .like(StringUtils.isNotEmpty(parm.getGoodsName()),
+                        Goods::getGoodsName, parm.getGoodsName())
+                .orderByDesc(Goods::getCreateTime);
         IPage<Goods> list = goodsService.page(page, query);
         return ResultUtils.success("查询成功", list);
     }
+
+    @GetMapping("/queryIdleItemCount")
+    public ResultVo getQueryIdleItemCount() {
+        QueryWrapper<Goods> query = new QueryWrapper<>();
+        query.lambda()
+                .eq(Goods::getType, "0")
+                .eq(Goods::getDeleteStatus, "0")
+                .orderByDesc(Goods::getCreateTime);
+        Integer count = goodsService.count(query);
+        return ResultUtils.success("查询成功", count);
+    }
+
 
     // 上下架商品
     @PostMapping("/upanddown")

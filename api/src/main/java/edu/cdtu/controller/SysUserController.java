@@ -17,6 +17,7 @@ import edu.cdtu.entity.user.*;
 import edu.cdtu.entity.wx_user.LoginVo;
 import edu.cdtu.user.SysUserService;
 import edu.cdtu.utils.ResultUtils;
+import lombok.val;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -173,6 +174,15 @@ public class SysUserController {
         //查询
         IPage<SysUser> list = sysUserService.page(page, query);
         return ResultUtils.success("查询成功", list);
+    }
+
+    // 查询微信正常用户数量
+    @GetMapping("/getQueryUserCount")
+    public ResultVo getQueryUserCount() {
+        QueryWrapper<SysUser> query = new QueryWrapper<>();
+        query.lambda().eq(SysUser::getStatus, "0").eq(SysUser::getIsAdmin, "0");
+        Integer count = sysUserService.count(query);
+        return ResultUtils.success("查询成功",count);
     }
 
     @GetMapping("/list")
