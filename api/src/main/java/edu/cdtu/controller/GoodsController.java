@@ -122,11 +122,8 @@ public class GoodsController {
     //后台删除商品
     @PostMapping("/delete")
     public ResultVo delete(@RequestBody StatusParm parm) {
-        //@DeleteMapping("{goodsId}")
-        //public ResultVo delete(@PathVariable("goodsId") Long goodsId){
         UpdateWrapper<Goods> query = new UpdateWrapper<>();
         query.lambda().set(Goods::getDeleteStatus, "1").eq(Goods::getGoodsId, parm.getGoodsId());
-        //query.lambda().set(Goods::getDeleteStatus, "1").eq(Goods::getGoodsId, goodsId);
         if (goodsService.update(query)) {
             return ResultUtils.success("删除成功！");
         }
