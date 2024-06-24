@@ -16,7 +16,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                // 检验
+                // 设置白名单入站
                 .authorizeHttpRequests()
                 .antMatchers("/api/v1/**", "/error", "/images/**").permitAll()
                 .anyRequest().authenticated()

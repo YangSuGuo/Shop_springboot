@@ -101,7 +101,7 @@ public class WxUserController {
     }
 
     //小程序更新密码
-    @PostMapping("/wxupdatePassword")
+    @PostMapping("/wxUpdatePassword")
     public ResultVo wxupdatePassword(@RequestBody UpdateParm parm) {
         //判断原密码是否正确
         QueryWrapper<WxUser> query = new QueryWrapper<>();
@@ -110,7 +110,7 @@ public class WxUserController {
         if (one == null) {
             return ResultUtils.error("原密码不正确!");
         }
-//        修改密码
+        // 修改密码
         UpdateWrapper<WxUser> update = new UpdateWrapper<>();
         update.lambda().set(WxUser::getPassword, DigestUtils.md5DigestAsHex(parm.getPassword().getBytes())).eq(WxUser::getUserId, parm.getUserId());
         if (wxUserService.update(update)) {
