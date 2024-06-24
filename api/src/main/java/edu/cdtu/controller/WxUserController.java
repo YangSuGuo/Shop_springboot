@@ -37,9 +37,7 @@ public class WxUserController {
     @PostMapping("/login")
     public ResultVo login(@RequestBody WxUser user) {
         QueryWrapper<WxUser> query = new QueryWrapper<>();
-        query.lambda().eq(WxUser::getUsername, user.getUsername()).
-                eq(WxUser::getPassword, DigestUtils.md5DigestAsHex(user.getPassword().getBytes())).
-                ne(WxUser::getDeleteStatus, "1");
+        query.lambda().eq(WxUser::getUsername, user.getUsername()).eq(WxUser::getPassword, DigestUtils.md5DigestAsHex(user.getPassword().getBytes())).ne(WxUser::getDeleteStatus, "1");
         WxUser wxUser = wxUserService.getOne(query);
         if (wxUser != null) {
             if (wxUser.getStatus().equals("1")) {
@@ -58,8 +56,7 @@ public class WxUserController {
     public ResultVo getList(WxUserPageParm parm) {
         IPage<WxUser> page = new Page<>(parm.getCurrentPage(), parm.getPageSize());
         QueryWrapper<WxUser> query = new QueryWrapper<>();
-        query.lambda().like(StringUtils.isNotEmpty(parm.getPhone()), WxUser::getPhone, parm.getPhone())
-                .ne(WxUser::getDeleteStatus, "1").orderByDesc(WxUser::getUsername);
+        query.lambda().like(StringUtils.isNotEmpty(parm.getPhone()), WxUser::getPhone, parm.getPhone()).ne(WxUser::getDeleteStatus, "1").orderByDesc(WxUser::getUsername);
         IPage<WxUser> list = wxUserService.page(page, query);
         return ResultUtils.success("查询成功", list);
     }
@@ -108,16 +105,14 @@ public class WxUserController {
     public ResultVo wxupdatePassword(@RequestBody UpdateParm parm) {
         //判断原密码是否正确
         QueryWrapper<WxUser> query = new QueryWrapper<>();
-        query.lambda().eq(WxUser::getUserId, parm.getUserId())
-                .eq(WxUser::getPassword, DigestUtils.md5DigestAsHex(parm.getOldPassword().getBytes()));
+        query.lambda().eq(WxUser::getUserId, parm.getUserId()).eq(WxUser::getPassword, DigestUtils.md5DigestAsHex(parm.getOldPassword().getBytes()));
         WxUser one = wxUserService.getOne(query);
         if (one == null) {
             return ResultUtils.error("原密码不正确!");
         }
 //        修改密码
         UpdateWrapper<WxUser> update = new UpdateWrapper<>();
-        update.lambda().set(WxUser::getPassword, DigestUtils.md5DigestAsHex(parm.getPassword().getBytes()))
-                .eq(WxUser::getUserId, parm.getUserId());
+        update.lambda().set(WxUser::getPassword, DigestUtils.md5DigestAsHex(parm.getPassword().getBytes())).eq(WxUser::getUserId, parm.getUserId());
         if (wxUserService.update(update)) {
             return ResultUtils.success("密码修改成功!");
         }
@@ -145,17 +140,14 @@ public class WxUserController {
     public ResultVo forget(@RequestBody ForgetParm parm) {
         //查询用户是否存在
         QueryWrapper<WxUser> query = new QueryWrapper<>();
-        query.lambda().eq(WxUser::getUsername, parm.getUsername())
-                .eq(WxUser::getPhone, parm.getPhone());
+        query.lambda().eq(WxUser::getUsername, parm.getUsername()).eq(WxUser::getPhone, parm.getPhone());
         WxUser one = wxUserService.getOne(query);
         if (one == null) {
             return ResultUtils.error("账户或电话号码不正确!");
         }
         //更新条件
         UpdateWrapper<WxUser> update = new UpdateWrapper<>();
-        update.lambda().set(WxUser::getPassword, DigestUtils.md5DigestAsHex(parm.getPassword().getBytes()))
-                .eq(WxUser::getUsername, parm.getUsername())
-                .eq(WxUser::getPhone, parm.getPhone());
+        update.lambda().set(WxUser::getPassword, DigestUtils.md5DigestAsHex(parm.getPassword().getBytes())).eq(WxUser::getUsername, parm.getUsername()).eq(WxUser::getPhone, parm.getPhone());
         if (wxUserService.update(update)) {
             return ResultUtils.success("重置成功!");
         }

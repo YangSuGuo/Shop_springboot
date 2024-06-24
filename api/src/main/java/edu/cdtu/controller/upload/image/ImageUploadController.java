@@ -25,7 +25,7 @@ public class ImageUploadController {
         // 文件扩展名
         String fileExtensionName = fileName.substring(fileName.indexOf("."));
         // 新的文件名，避免重名覆盖
-        String newName = UUID.randomUUID().toString() + fileExtensionName;
+        String newName = UUID.randomUUID() + fileExtensionName;
         // 图片上传路径
         String path = webUploadpath;
         // 图片上传的目录对象

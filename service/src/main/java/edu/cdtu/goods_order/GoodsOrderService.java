@@ -9,7 +9,6 @@ import edu.cdtu.entity.goods_order.OrderParm;
 import edu.cdtu.entity.goods_order.OrderVo;
 
 import java.math.BigDecimal;
-import java.util.BitSet;
 
 public interface GoodsOrderService extends IService<GoodsOrder> {
     //    交易订单

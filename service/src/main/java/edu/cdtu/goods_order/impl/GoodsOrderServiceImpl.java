@@ -87,7 +87,7 @@ public class GoodsOrderServiceImpl extends ServiceImpl<GoodsOrderMapper, GoodsOr
     }
 
     @Override
-    public BigDecimal getQueryOrderTotalAmount(){
+    public BigDecimal getQueryOrderTotalAmount() {
         return this.baseMapper.getQueryOrderTotalAmount();
     }
 }
