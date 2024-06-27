@@ -47,27 +47,20 @@ public class SysUserController {
 
     @GetMapping("/image")
     public ResultVo imageCode(HttpServletRequest request) {
-        // 生成验证码字符
         String text = defaultKaptcha.createText();
-        // todo 设置生成唯一键值【毫秒】
+        // 设置生成唯一键值【毫秒】
         long zone = ZonedDateTime.now().withNano(0).toInstant().toEpochMilli();
         String key = DigestUtils.md5DigestAsHex(String.valueOf(zone).getBytes());
-        // 验证码保存到 redis 设置过期时间120秒
+        // 过期时间120秒
         redis.opsForValue().set("code" + key, text, 120, TimeUnit.SECONDS);
-        // 生成的验证码图片
         BufferedImage bufferedImage = defaultKaptcha.createImage(text);
         ByteArrayOutputStream outputStream = null;
         try {
             outputStream = new ByteArrayOutputStream();
-            // 将bufferedImage对象转换为JPEG格式的图片数据，然后写入到outputStream中。
             ImageIO.write(bufferedImage, "jpg", outputStream);
-            // 创建一个BASE64Encoder对象，用于将图片数据转换为Base64字符串
             Encoder encoder = Base64.getEncoder();
-            // 将outputStream中的图片数据转换为Base64字符串
             String base64 = encoder.encodeToString(outputStream.toByteArray());
-            // 将生成的Base64字符串添加"data:image/jpeg;base64,"前缀，形成完整的Base64图片字符串
             String captchaBase64 = "data:image/jpeg;base64," + base64.replaceAll("\r\n", "");
-            // 将生成的Base64图片字符串作为数据返回
             CodeKey vo = new CodeKey();
             vo.setKey(key);
             vo.setCaptchaBase64(captchaBase64);
@@ -91,14 +84,12 @@ public class SysUserController {
     @PostMapping("/login")
     public ResultVo login(@RequestBody LoginParm parm, HttpServletRequest request) {
         String keyParm = parm.getUserId();
-        // 获取redis里面的code验证码
         String code = redis.opsForValue().get("code" + keyParm);
         // 获取前端传来的验证码
         String codeParm = parm.getCode();
         System.out.println("前端请求验证码：" + codeParm);
         System.out.println("后端验证验证码：" + code);
         if (StringUtils.isEmpty(code)) return ResultUtils.error("验证码过期!");
-        // 对比验证码
         if (!codeParm.equals(code)) return ResultUtils.error("验证码错误！");
         // 验证用户信息
         QueryWrapper<SysUser> query = new QueryWrapper<>();
@@ -106,7 +97,7 @@ public class SysUserController {
         SysUser user = sysUserService.getOne(query);
         if (user == null) return ResultUtils.error("用户名或密码错误！");
         if (user.getStatus().equals("1")) return ResultUtils.error("账户被停用，请联系管理员！");
-        // 返回登录信息
+
         LoginVo vo = new LoginVo();
         vo.setUserId(user.getUserId());
         vo.setNickName(user.getNickName());
